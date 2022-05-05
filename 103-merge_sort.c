@@ -11,7 +11,7 @@
 
 void init_merge_sort(int *array, int *temp, size_t size)
 {
-	size_t half = size / 2;
+size_t half = size / 2;
 	size_t x, y = 0;
 	size_t z;
 
