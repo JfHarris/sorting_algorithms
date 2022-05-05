@@ -3,11 +3,11 @@
 #include "sort.h"
 
 /**
- * init_merge_sort - top-down merge sort algorxthm
- * @array: array to sort
- * @temp: array to hold info
- * @size: array size
- */
+* init_merge_sort - top-down merge sort algorithm
+* @array: array to sort
+* @temp: array to hold info
+* @size: array size
+*/
 
 void init_merge_sort(int *array, int *temp, size_t size)
 {
@@ -16,7 +16,7 @@ void init_merge_sort(int *array, int *temp, size_t size)
 	size_t z;
 
 	if (size < 2)
-	return;
+		return;
 
 	init_merge_sort(array, temp, half);
 	init_merge_sort(array + half, temp + half, size - half);
@@ -44,10 +44,10 @@ void init_merge_sort(int *array, int *temp, size_t size)
 }
 
 /**
- * merge_sort - initiate merge sort
- * @array: array to be sorted
- * @size: size of the array
- */
+* merge_sort - initiate merge sort
+* @array: array to be sorted
+* @size: size of the array
+*/
 void merge_sort(int *array, size_t size)
 {
 	int *temp;
