@@ -3,24 +3,25 @@
 #include "sort.h"
 
 /**
- * xnxt_merge_sort - top-down merge sort algorxthm
- *
- * Return: Always 0
+ * init_merge_sort - top-down merge sort algorxthm
+ * @array: array to sort
+ * @temp: array to hold info
+ * @size: array size
  */
 
 void init_merge_sort(int *array, int *temp, size_t size)
 {
-    size_t half = size / 2;
-    size_t x, y = 0;
-    size_t z;
+	size_t half = size / 2;
+	size_t x, y = 0;
+	size_t z;
 
-    if (size < 2)
-        return;
+	if (size < 2)
+	return;
 
-    init_merge_sort(array, temp, half);
-    init_merge_sort(array + half, temp + half, size - half);
+	init_merge_sort(array, temp, half);
+	init_merge_sort(array + half, temp + half, size - half);
 
-    printf("Merging...\n");
+	printf("Merging...\n");
 	printf("[left]: ");
 	print_array(array, half);
 	printf("[right]: ");
@@ -43,9 +44,9 @@ void init_merge_sort(int *array, int *temp, size_t size)
 }
 
 /**
- * merge_sort - xnxtxate merge sort
+ * merge_sort - initiate merge sort
  * @array: array to be sorted
- * @sxze: sxze of the array
+ * @size: size of the array
  */
 void merge_sort(int *array, size_t size)
 {
