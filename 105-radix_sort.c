@@ -1,88 +1,83 @@
 #include "sort.h"
 
+#include "sort.h"
+
 /**
- *set_array - setting array contents
- *@array: int array pointer
- *@dest: destination array
- *@size:  size of array
- */
+* find_largest - finds largest val of array
+* @array: array to search
+* @size: array size
+* Return: Largest value
+*/
 
-void set_array(int *array, int *dest, size_t size)
+int find_largest(int *array, size_t size)
 {
-	size_t site = 0;
+	int x;
+	int max;
 
-	for (site = 0; site < size; site++)
+	max = 0;
+
+	for (x = 0; x < (int)size; x++)
 	{
-		dest[site] = array[site];
+		if (max < array[x])
+			max = array[x];
 	}
+	return (max);
 }
 
 /**
- *LSD_counting - sorting array of ints using LSD Radix sort algo
- *@array: int array
- *@sorted: int array
- *@size: size of array
- *@exp: exponetial
- */
-void LSD_counting(int *array, int *sorted, size_t size, size_t exp)
-{
-	int site = 0;
-	int *bucket = malloc(sizeof(int) * 10);
-    size_t x;
-
-	for (site = 0; site < 10; site++)
-		bucket[site] = 0;
-
-	for (site = 0; site < (int) size; site++)
-	{
-		x = (array[site] / exp) % 10;
-		bucket[x] += 1;
-	}
-	for (site = 1; site < (int) size; site++)
-		bucket[site] += bucket[site - 1];
-	for (site = size - 1; site >= 0; site--)
-	{
-		x = (array[site] / exp) % 10;
-		bucket[x] -= 1;
-		sorted[bucket[x]] = array[site];
-	}
-	free(bucket);
-}
-
-/**
- *radix_sort - sort int array performing LSD Radix sorting algorithm
- *@array: the integer array
- *@size: the array size
- */
+* radix_sort - Sorts array using radix algorithm
+* @array: Array to sort
+* @size: size of array
+* Return: void
+*/
 
 void radix_sort(int *array, size_t size)
 {
-	int *sorted;
-    int min = 0;
-    int max = 0;
-	size_t site = 0;
-    size_t exp = 1;
+	int x;
+	int site;
+	int *y;
+	int *z;
 
-	if (size < 2)
+	if (array == NULL || size < 2)
 		return;
-	sorted = malloc(sizeof(int) * size);
-	set_array(array, sorted, size);
-	min = array[0];
-	max = array[0];
-	for (site = 1; site < size; site++)
+	x = find_largest(array, size);
+	y = malloc(sizeof(int) * (int)size);
+	z = malloc(sizeof(int) * (10));
+	if (z == NULL || y == NULL)
+		return;
+	for (site = 1; x / site > 0; site *= 10)
+		count_sort(array, size, site, y, z), print_array(array, size);
+	free(y);
+	free(z);
+}
+
+/**
+* count_sort - sorts array by counting
+* @array: rray to sort
+* @size: size of array
+* @site: value site
+* @y: temporary 
+* @z: array
+* Return: void
+*/
+
+void count_sort(int *array, size_t size, int site, int *y, int *z)
+{
+	int x;
+
+	if (array == NULL || size < 2)
+		return;
+	for (x = 0; x < 10; x++)
+		z[x] = 0;
+	for (x = 0; x < (int)size; x++)
+		z[((array[x] / site) % 10)] += 1;
+	for (x = 0; x < 10; x++)
+		z[x] += z[x - 1];
+	for (x = size - 1; x >= 0; x--)
 	{
-		if (array[site] < min)
-			min = array[site];
-		else if (array[site] > max)
-			max = array[site];
+		y[z[((array[x] / site) % 10)] - 1] = array[x];
+		z[((array[x] / site) % 10)] -= 1;
 	}
-	exp = 1;
-	while ((max - min) / exp >= 1)
-	{
-		LSD_counting(array, sorted, size, exp);
-		print_array(sorted, size);
-		exp *= 10;
-		set_array(sorted, array, size);
-	}
-	free(sorted);
+	for (x = 0; x < (int)size; x++)
+		array[x] = y[x];
 }
